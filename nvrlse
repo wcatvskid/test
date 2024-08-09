@@ -178,16 +178,14 @@ local function createSlider(text, parent, position)
         if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
             local relativeX = input.Position.X - slider.AbsolutePosition.X
             local percent = math.clamp(relativeX / slider.AbsoluteSize.X, 0, 1)
-            handle.Position = UDim2.new(percent, -5
             handle.Position = UDim2.new(percent, -5, 0, 0)
         end
     end)
 end
 
--- Add a slider to the right panel
 createSlider("FOV", rightPanel, UDim2.new(0, 20, 0, 180))
 
--- Add text boxes for numeric input
+-- Function to create a text box for numeric input
 local function createTextBox(text, parent, position)
     local textBoxFrame = Instance.new("Frame")
     textBoxFrame.Size = UDim2.new(0, 200, 0, 30)
@@ -223,7 +221,7 @@ end
 -- Add a text box to the right panel
 createTextBox("Field of View", rightPanel, UDim2.new(0, 20, 0, 220))
 
--- Adding a drop-down menu
+-- Function to create a drop-down menu
 local function createDropdown(text, parent, position, options)
     local dropdownFrame = Instance.new("Frame")
     dropdownFrame.Size = UDim2.new(0, 200, 0, 30)
@@ -287,3 +285,18 @@ end
 
 -- Add a dropdown to the right panel
 createDropdown("Aiming Style", rightPanel, UDim2.new(0, 20, 0, 260), {"Headshot", "Body", "Legs"})
+
+ createSlider("Hit Chance", rightPanel, UDim2.new(0, 20, 0, 300))
+createToggleButton("Anti Aim", rightPanel, UDim2.new(0, 20, 0, 340))
+
+saveButton.MouseButton1Click:Connect(function()
+    print("Settings Saved!")
+    -- Implement save functionality here
+end)
+
+-- View ESP button functionality (as an example)
+viewESPButton.MouseButton1Click:Connect(function()
+    print("ESP View toggled!")
+    -- Implement ESP view functionality here
+end)
+
