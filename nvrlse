@@ -1,0 +1,289 @@
+-- Create a ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.Name = "NeverLoseGUI"
+
+-- Create the main frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 550, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -275, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(35, 38, 45)
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+
+-- Create the top bar
+local topBar = Instance.new("Frame")
+topBar.Size = UDim2.new(1, 0, 0, 30)
+topBar.BackgroundColor3 = Color3.fromRGB(25, 28, 33)
+topBar.BorderSizePixel = 0
+topBar.Parent = mainFrame
+
+local title = Instance.new("TextLabel")
+title.Text = "NEVERLOSE"
+title.Size = UDim2.new(0, 200, 1, 0)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 18
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = topBar
+
+local saveButton = Instance.new("TextButton")
+saveButton.Text = "Save"
+saveButton.Size = UDim2.new(0, 50, 0, 20)
+saveButton.Position = UDim2.new(1, -110, 0.5, -10)
+saveButton.BackgroundColor3 = Color3.fromRGB(50, 53, 61)
+saveButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+saveButton.BorderSizePixel = 0
+saveButton.Font = Enum.Font.SourceSans
+saveButton.TextSize = 14
+saveButton.Parent = topBar
+
+local viewESPButton = Instance.new("TextButton")
+viewESPButton.Text = "View ESP"
+viewESPButton.Size = UDim2.new(0, 80, 0, 20)
+viewESPButton.Position = UDim2.new(1, -80, 0.5, -10)
+viewESPButton.BackgroundColor3 = Color3.fromRGB(50, 53, 61)
+viewESPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+viewESPButton.BorderSizePixel = 0
+viewESPButton.Font = Enum.Font.SourceSans
+viewESPButton.TextSize = 14
+viewESPButton.Parent = topBar
+
+-- Create a left panel for the categories
+local leftPanel = Instance.new("Frame")
+leftPanel.Size = UDim2.new(0, 120, 1, -30)
+leftPanel.Position = UDim2.new(0, 0, 0, 30)
+leftPanel.BackgroundColor3 = Color3.fromRGB(45, 48, 56)
+leftPanel.BorderSizePixel = 0
+leftPanel.Parent = mainFrame
+
+-- Add buttons for categories
+local categories = {"Ragebot", "Anti Aim", "Legitbot", "Players", "Weapon", "World", "View", "Settings"}
+for i, category in ipairs(categories) do
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, 0, 0, 40)
+    button.Position = UDim2.new(0, 0, 0, (i - 1) * 42)
+    button.BackgroundColor3 = Color3.fromRGB(50, 53, 61)
+    button.BorderSizePixel = 0
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Text = category
+    button.Font = Enum.Font.SourceSans
+    button.TextSize = 16
+    button.Parent = leftPanel
+end
+
+-- Create the right panel for settings
+local rightPanel = Instance.new("Frame")
+rightPanel.Size = UDim2.new(1, -120, 1, -30)
+rightPanel.Position = UDim2.new(0, 120, 0, 30)
+rightPanel.BackgroundColor3 = Color3.fromRGB(35, 38, 45)
+rightPanel.BorderSizePixel = 0
+rightPanel.Parent = mainFrame
+
+-- Function to create a toggle button
+local function createToggleButton(text, parent, position)
+    local toggleFrame = Instance.new("Frame")
+    toggleFrame.Size = UDim2.new(0, 200, 0, 30)
+    toggleFrame.Position = position
+    toggleFrame.BackgroundColor3 = Color3.fromRGB(50, 53, 61)
+    toggleFrame.BorderSizePixel = 0
+    toggleFrame.Parent = parent
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0.8, 0, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    label.Text = text
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Font = Enum.Font.SourceSans
+    label.TextSize = 14
+    label.Parent = toggleFrame
+
+    local toggleButton = Instance.new("TextButton")
+    toggleButton.Size = UDim2.new(0.2, -10, 0.8, 0)
+    toggleButton.Position = UDim2.new(0.8, 0, 0.1, 0)
+    toggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    toggleButton.Text = ""
+    toggleButton.BorderSizePixel = 0
+    toggleButton.Parent = toggleFrame
+
+    local enabled = false
+
+    toggleButton.MouseButton1Click:Connect(function()
+        enabled = not enabled
+        if enabled then
+            toggleButton.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+        else
+            toggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        end
+    end)
+end
+
+-- Add toggles to the right panel
+createToggleButton("Enable Ragebot", rightPanel, UDim2.new(0, 20, 0, 20))
+createToggleButton("Silent Aim", rightPanel, UDim2.new(0, 20, 0, 60))
+createToggleButton("Auto Wall", rightPanel, UDim2.new(0, 20, 0, 100))
+createToggleButton("Hit Chance", rightPanel, UDim2.new(0, 20, 0, 140))
+
+-- Function to create a slider
+local function createSlider(text, parent, position)
+    local sliderFrame = Instance.new("Frame")
+    sliderFrame.Size = UDim2.new(0, 200, 0, 30)
+    sliderFrame.Position = position
+    sliderFrame.BackgroundColor3 = Color3.fromRGB(50, 53, 61)
+    sliderFrame.BorderSizePixel = 0
+    sliderFrame.Parent = parent
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0.5, 0, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    label.Text = text
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Font = Enum.Font.SourceSans
+    label.TextSize = 14
+    label.Parent = sliderFrame
+
+    local slider = Instance.new("Frame")
+    slider.Size = UDim2.new(0.5, -10, 0.5, 0)
+    slider.Position = UDim2.new(0.5, 0, 0.25, 0)
+    slider.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    slider.Parent = sliderFrame
+
+    local handle = Instance.new("Frame")
+    handle.Size = UDim2.new(0, 10, 1, 0)
+    handle.Position = UDim2.new(0, 0, 0, 0)
+    handle.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+    handle.Parent = slider
+
+    local dragging = false
+
+    handle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+        end
+    end)
+
+    handle.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+
+    slider.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local relativeX = input.Position.X - slider.AbsolutePosition.X
+            local percent = math.clamp(relativeX / slider.AbsoluteSize.X, 0, 1)
+            handle.Position = UDim2.new(percent, -5
+            handle.Position = UDim2.new(percent, -5, 0, 0)
+        end
+    end)
+end
+
+-- Add a slider to the right panel
+createSlider("FOV", rightPanel, UDim2.new(0, 20, 0, 180))
+
+-- Add text boxes for numeric input
+local function createTextBox(text, parent, position)
+    local textBoxFrame = Instance.new("Frame")
+    textBoxFrame.Size = UDim2.new(0, 200, 0, 30)
+    textBoxFrame.Position = position
+    textBoxFrame.BackgroundColor3 = Color3.fromRGB(50, 53, 61)
+    textBoxFrame.BorderSizePixel = 0
+    textBoxFrame.Parent = parent
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0.5, 0, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    label.Text = text
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Font = Enum.Font.SourceSans
+    label.TextSize = 14
+    label.Parent = textBoxFrame
+
+    local textBox = Instance.new("TextBox")
+    textBox.Size = UDim2.new(0.5, -10, 0.8, 0)
+    textBox.Position = UDim2.new(0.5, 0, 0.1, 0)
+    textBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    textBox.Text = ""
+    textBox.PlaceholderText = "0"
+    textBox.BorderSizePixel = 0
+    textBox.Font = Enum.Font.SourceSans
+    textBox.TextSize = 14
+    textBox.Parent = textBoxFrame
+end
+
+-- Add a text box to the right panel
+createTextBox("Field of View", rightPanel, UDim2.new(0, 20, 0, 220))
+
+-- Adding a drop-down menu
+local function createDropdown(text, parent, position, options)
+    local dropdownFrame = Instance.new("Frame")
+    dropdownFrame.Size = UDim2.new(0, 200, 0, 30)
+    dropdownFrame.Position = position
+    dropdownFrame.BackgroundColor3 = Color3.fromRGB(50, 53, 61)
+    dropdownFrame.BorderSizePixel = 0
+    dropdownFrame.Parent = parent
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0.5, 0, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(200, 200, 200)
+    label.Text = text
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Font = Enum.Font.SourceSans
+    label.TextSize = 14
+    label.Parent = dropdownFrame
+
+    local dropdownButton = Instance.new("TextButton")
+    dropdownButton.Size = UDim2.new(0.5, -10, 0.8, 0)
+    dropdownButton.Position = UDim2.new(0.5, 0, 0.1, 0)
+    dropdownButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    dropdownButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    dropdownButton.Text = "Select"
+    dropdownButton.BorderSizePixel = 0
+    dropdownButton.Font = Enum.Font.SourceSans
+    dropdownButton.TextSize = 14
+    dropdownButton.Parent = dropdownFrame
+
+    local optionFrame = Instance.new("Frame")
+    optionFrame.Size = UDim2.new(1, 0, 0, #options * 20)
+    optionFrame.Position = UDim2.new(0, 0, 1, 0)
+    optionFrame.BackgroundColor3 = Color3.fromRGB(50, 53, 61)
+    optionFrame.BorderSizePixel = 0
+    optionFrame.Visible = false
+    optionFrame.Parent = dropdownFrame
+
+    for i, option in ipairs(options) do
+        local optionButton = Instance.new("TextButton")
+        optionButton.Size = UDim2.new(1, 0, 0, 20)
+        optionButton.Position = UDim2.new(0, 0, 0, (i - 1) * 20)
+        optionButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        optionButton.Text = option
+        optionButton.BorderSizePixel = 0
+        optionButton.Font = Enum.Font.SourceSans
+        optionButton.TextSize = 14
+        optionButton.Parent = optionFrame
+
+        optionButton.MouseButton1Click:Connect(function()
+            dropdownButton.Text = option
+            optionFrame.Visible = false
+        end)
+    end
+
+    dropdownButton.MouseButton1Click:Connect(function()
+        optionFrame.Visible = not optionFrame.Visible
+    end)
+end
+
+-- Add a dropdown to the right panel
+createDropdown("Aiming Style", rightPanel, UDim2.new(0, 20, 0, 260), {"Headshot", "Body", "Legs"})
